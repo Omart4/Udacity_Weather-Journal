@@ -1,10 +1,10 @@
 /* Global Variables */
 const baseURL = 'http://api.openweathermap.org/data/2.5/weather?zip=';
-const apiKey = 'ad6f724ae6adf65f34d542addbbba664';
+const apiKey = 'ad6f724ae6adf65f34d542addbbba664&units=metric';
 const generate = document.getElementById('generate')
 // Create a new date instance dynamically with JS
 let d = new Date();
-let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
+let newDate = d.getMonth()+1+'.'+ d.getDate()+'.'+ d.getFullYear();
 
 //This is where the magic happens , by calling this function we get the weather , post the data to server.js , update the UI
 const performAction = ()=>{
@@ -58,13 +58,9 @@ const updateUI = async ()=>{
     const mood = document.getElementById('mood').value
     try{
         const data = await request.json()
-        //I discoverd that the weather is in kelvin so i wrote a function to convert it to celsius
-        function toCelsius(){
-            return (data.weather-273.15).toFixed(2)
-        }
         city.innerHTML = `City: ${data.city}`
         date.innerHTML = `Date: ${newDate}`;
-        weather.innerHTML = `Current Weather: ${toCelsius()}°C`;
+        weather.innerHTML = `Current Weather: ${data.weather}°C`;
         feel.innerHTML = `Current Mood: ${mood}`
     }catch(err){
         console.log(err)
